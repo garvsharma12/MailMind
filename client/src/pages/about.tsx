@@ -44,62 +44,6 @@ export default function About() {
             </div>
           </div>
 
-          {/* Technology Stack */}
-          <Card className="shadow-lg border border-border mb-16">
-            <CardContent className="p-8">
-              <h2 className="text-3xl font-bold text-foreground mb-8 text-center">Technology Stack</h2>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <div>
-                  <h3 className="text-xl font-semibold text-foreground mb-4 flex items-center">
-                    <Server className="mr-3 text-primary" size={24} />
-                    Backend
-                  </h3>
-                  <ul className="space-y-2 text-muted-foreground">
-                    <li className="flex items-center">
-                      <Check className="text-green-500 mr-2" size={16} />
-                      Spring Boot Framework
-                    </li>
-                    <li className="flex items-center">
-                      <Check className="text-green-500 mr-2" size={16} />
-                      Java 17
-                    </li>
-                    <li className="flex items-center">
-                      <Check className="text-green-500 mr-2" size={16} />
-                      RESTful API Architecture
-                    </li>
-                    <li className="flex items-center">
-                      <Check className="text-green-500 mr-2" size={16} />
-                      Google Gemini AI Integration
-                    </li>
-                  </ul>
-                </div>
-                <div>
-                  <h3 className="text-xl font-semibold text-foreground mb-4 flex items-center">
-                    <Laptop className="mr-3 text-primary" size={24} />
-                    Frontend
-                  </h3>
-                  <ul className="space-y-2 text-muted-foreground">
-                    <li className="flex items-center">
-                      <Check className="text-green-500 mr-2" size={16} />
-                      React.js
-                    </li>
-                    <li className="flex items-center">
-                      <Check className="text-green-500 mr-2" size={16} />
-                      Tailwind CSS
-                    </li>
-                    <li className="flex items-center">
-                      <Check className="text-green-500 mr-2" size={16} />
-                      Responsive Design
-                    </li>
-                    <li className="flex items-center">
-                      <Check className="text-green-500 mr-2" size={16} />
-                      Modern UI/UX
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
 
           {/* Features */}
           <div className="mb-16">
