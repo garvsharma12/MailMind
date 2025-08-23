@@ -15,7 +15,7 @@ import { generateEmailReply, EmailRequest } from "@/lib/api";
 
 const formSchema = z.object({
   emailContent: z.string().min(1, "Email content is required"),
-  tone: z.string(),
+  tone: z.string().default("professional"),
 });
 
 type FormData = z.infer<typeof formSchema>;
@@ -28,7 +28,7 @@ export default function Home() {
     resolver: zodResolver(formSchema),
     defaultValues: {
       emailContent: "",
-      tone: "",
+      tone: "professional",
     },
   });
 
@@ -140,10 +140,10 @@ export default function Home() {
                         <FormLabel className="text-sm font-medium text-foreground">
                           Reply Tone
                         </FormLabel>
-                        <Select onValueChange={field.onChange} defaultValue={field.value}>
+                        <Select onValueChange={field.onChange} value={field.value}>
                           <FormControl>
                             <SelectTrigger className="focus:ring-2 focus:ring-primary focus:border-primary transition-all duration-300 hover:shadow-md hover:border-primary/50" data-testid="select-tone">
-                              <SelectValue placeholder="Professional (Default)" />
+                              <SelectValue placeholder="Select tone" />
                             </SelectTrigger>
                           </FormControl>
                           <SelectContent>
