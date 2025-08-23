@@ -27,11 +27,7 @@ A sleek **Full Stack Web Application** built with **React, Tailwind CSS, and Vit
 ## 📸 Project Demo  
 
 🎥 **Working Proof:**  
-![Demo Screenshot](./assets)  
-
-📂 **Screen Recording:**  
-[`simplescreenrecorder-2025-08-23_19.15.57.mkv`]([./assets/simplescreenrecorder-2025-08-23_19.15.57.mkv](https://github.com/garvsharma12/MailMind/blob/main/assests/simplescreenrecorder-2025-08-23_19.15.57.mkv))  
-
+Check in assests folder
 ---
 
 ## 🚀 Getting Started  
