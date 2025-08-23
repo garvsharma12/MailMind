@@ -123,7 +123,7 @@ export default function Home() {
                           <Textarea
                             placeholder="Paste the email you want to reply to here..."
                             rows={8}
-                            className="resize-none focus:ring-2 focus:ring-primary focus:border-primary transition-all duration-300 hover:shadow-md"
+                            className="resize-none focus:ring-2 focus:ring-primary focus:border-primary"
                             data-testid="textarea-email-content"
                             {...field}
                           />
@@ -141,7 +141,7 @@ export default function Home() {
                           Reply Tone
                         </FormLabel>
                         <Select onValueChange={field.onChange} value={field.value || "professional"}>
-                          <SelectTrigger className="focus:ring-2 focus:ring-primary focus:border-primary transition-all duration-300 hover:shadow-md hover:border-primary/50" data-testid="select-tone">
+                          <SelectTrigger className="focus:ring-2 focus:ring-primary focus:border-primary" data-testid="select-tone">
                             <SelectValue placeholder="Select tone" />
                           </SelectTrigger>
                           <SelectContent>
@@ -181,7 +181,7 @@ export default function Home() {
           </Card>
 
           {/* Output Section */}
-          <Card className="shadow-lg border border-border transition-all duration-300 hover:shadow-xl hover:scale-[1.02] hover:border-primary/20">
+          <Card className="shadow-lg border border-border">
             <CardContent className="p-8">
               <h2 className="text-2xl font-semibold text-foreground mb-6 flex items-center">
                 <Reply className="mr-3 text-primary" size={24} />
