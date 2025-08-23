@@ -102,7 +102,7 @@ export default function Home() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           
           {/* Input Section */}
-          <Card className="shadow-lg border border-border">
+          <Card className="shadow-lg border border-border transition-all duration-300 hover:shadow-xl hover:scale-[1.02] hover:border-primary/20">
             <CardContent className="p-8">
               <h2 className="text-2xl font-semibold text-foreground mb-6 flex items-center">
                 <Edit className="mr-3 text-primary" size={24} />
@@ -123,7 +123,7 @@ export default function Home() {
                           <Textarea
                             placeholder="Paste the email you want to reply to here..."
                             rows={8}
-                            className="resize-none focus:ring-2 focus:ring-primary focus:border-primary"
+                            className="resize-none focus:ring-2 focus:ring-primary focus:border-primary transition-all duration-300 hover:shadow-md"
                             data-testid="textarea-email-content"
                             {...field}
                           />
@@ -142,7 +142,7 @@ export default function Home() {
                         </FormLabel>
                         <Select onValueChange={field.onChange} defaultValue={field.value}>
                           <FormControl>
-                            <SelectTrigger className="focus:ring-2 focus:ring-primary focus:border-primary" data-testid="select-tone">
+                            <SelectTrigger className="focus:ring-2 focus:ring-primary focus:border-primary transition-all duration-300 hover:shadow-md hover:border-primary/50" data-testid="select-tone">
                               <SelectValue placeholder="Professional (Default)" />
                             </SelectTrigger>
                           </FormControl>
@@ -162,7 +162,7 @@ export default function Home() {
                   <Button
                     type="submit"
                     disabled={generateMutation.isPending}
-                    className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-medium py-3 px-6 transition duration-200"
+                    className="w-full bg-primary hover:bg-primary/90 hover:scale-105 text-primary-foreground font-medium py-3 px-6 transition-all duration-300 hover:shadow-lg"
                     data-testid="button-generate"
                   >
                     {generateMutation.isPending ? (
@@ -183,7 +183,7 @@ export default function Home() {
           </Card>
 
           {/* Output Section */}
-          <Card className="shadow-lg border border-border">
+          <Card className="shadow-lg border border-border transition-all duration-300 hover:shadow-xl hover:scale-[1.02] hover:border-primary/20">
             <CardContent className="p-8">
               <h2 className="text-2xl font-semibold text-foreground mb-6 flex items-center">
                 <Reply className="mr-3 text-primary" size={24} />
@@ -218,7 +218,7 @@ export default function Home() {
                   </p>
                   <Button
                     onClick={regenerateReply}
-                    className="bg-primary hover:bg-primary/90 text-primary-foreground"
+                    className="bg-primary hover:bg-primary/90 hover:scale-105 text-primary-foreground transition-all duration-300 hover:shadow-lg"
                     data-testid="button-retry"
                   >
                     Try Again
@@ -238,7 +238,7 @@ export default function Home() {
                   <div className="flex space-x-3">
                     <Button
                       onClick={copyToClipboard}
-                      className="flex-1 bg-green-600 hover:bg-green-700 text-white font-medium py-2 px-4 transition duration-200"
+                      className="flex-1 bg-green-600 hover:bg-green-700 hover:scale-105 text-white font-medium py-2 px-4 transition-all duration-300 hover:shadow-lg"
                       data-testid="button-copy"
                     >
                       <Copy className="mr-2" size={16} />
@@ -246,7 +246,7 @@ export default function Home() {
                     </Button>
                     <Button
                       onClick={regenerateReply}
-                      className="flex-1 bg-secondary hover:bg-secondary/80 text-secondary-foreground font-medium py-2 px-4 transition duration-200"
+                      className="flex-1 bg-secondary hover:bg-secondary/80 hover:scale-105 text-secondary-foreground font-medium py-2 px-4 transition-all duration-300 hover:shadow-lg"
                       data-testid="button-regenerate"
                     >
                       <RotateCcw className="mr-2" size={16} />
@@ -263,25 +263,25 @@ export default function Home() {
         <div className="mt-16">
           <h2 className="text-3xl font-bold text-center text-foreground mb-12">Why Choose MailMind?</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="text-center p-6">
-              <div className="w-16 h-16 mx-auto mb-4 bg-primary/10 rounded-full flex items-center justify-center">
-                <Bot className="text-primary" size={32} />
+            <div className="text-center p-6 transition-all duration-300 hover:scale-105 hover:bg-muted/50 rounded-xl cursor-pointer group">
+              <div className="w-16 h-16 mx-auto mb-4 bg-primary/10 rounded-full flex items-center justify-center transition-all duration-300 group-hover:bg-primary/20 group-hover:scale-110">
+                <Bot className="text-primary transition-transform duration-300 group-hover:scale-110" size={32} />
               </div>
-              <h3 className="text-xl font-semibold text-foreground mb-2">AI-Powered</h3>
+              <h3 className="text-xl font-semibold text-foreground mb-2 transition-colors duration-300 group-hover:text-primary">AI-Powered</h3>
               <p className="text-muted-foreground">Advanced AI understands context and generates human-like responses.</p>
             </div>
-            <div className="text-center p-6">
-              <div className="w-16 h-16 mx-auto mb-4 bg-primary/10 rounded-full flex items-center justify-center">
-                <Palette className="text-primary" size={32} />
+            <div className="text-center p-6 transition-all duration-300 hover:scale-105 hover:bg-muted/50 rounded-xl cursor-pointer group">
+              <div className="w-16 h-16 mx-auto mb-4 bg-primary/10 rounded-full flex items-center justify-center transition-all duration-300 group-hover:bg-primary/20 group-hover:scale-110">
+                <Palette className="text-primary transition-transform duration-300 group-hover:scale-110" size={32} />
               </div>
-              <h3 className="text-xl font-semibold text-foreground mb-2">Tone Customization</h3>
+              <h3 className="text-xl font-semibold text-foreground mb-2 transition-colors duration-300 group-hover:text-primary">Tone Customization</h3>
               <p className="text-muted-foreground">Choose from multiple tones to match your communication style.</p>
             </div>
-            <div className="text-center p-6">
-              <div className="w-16 h-16 mx-auto mb-4 bg-primary/10 rounded-full flex items-center justify-center">
-                <Clock className="text-primary" size={32} />
+            <div className="text-center p-6 transition-all duration-300 hover:scale-105 hover:bg-muted/50 rounded-xl cursor-pointer group">
+              <div className="w-16 h-16 mx-auto mb-4 bg-primary/10 rounded-full flex items-center justify-center transition-all duration-300 group-hover:bg-primary/20 group-hover:scale-110">
+                <Clock className="text-primary transition-transform duration-300 group-hover:scale-110" size={32} />
               </div>
-              <h3 className="text-xl font-semibold text-foreground mb-2">Time-Saving</h3>
+              <h3 className="text-xl font-semibold text-foreground mb-2 transition-colors duration-300 group-hover:text-primary">Time-Saving</h3>
               <p className="text-muted-foreground">Generate professional replies in seconds, not minutes.</p>
             </div>
           </div>

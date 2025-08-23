@@ -28,19 +28,19 @@ export default function About() {
                 high-quality communication standards.
               </p>
               <div className="flex space-x-4 mt-6">
-                <div className="bg-primary/10 rounded-lg p-4 flex-1">
+                <div className="bg-primary/10 rounded-lg p-4 flex-1 transition-all duration-300 hover:bg-primary/20 hover:scale-105 hover:shadow-lg cursor-pointer">
                   <div className="text-2xl font-bold text-primary" data-testid="text-stat-emails">10k+</div>
                   <div className="text-sm text-muted-foreground">Emails Generated</div>
                 </div>
-                <div className="bg-primary/10 rounded-lg p-4 flex-1">
+                <div className="bg-primary/10 rounded-lg p-4 flex-1 transition-all duration-300 hover:bg-primary/20 hover:scale-105 hover:shadow-lg cursor-pointer">
                   <div className="text-2xl font-bold text-primary" data-testid="text-stat-satisfaction">95%</div>
                   <div className="text-sm text-muted-foreground">User Satisfaction</div>
                 </div>
               </div>
             </div>
-            <div className="bg-gradient-to-br from-primary/10 to-primary/20 rounded-xl p-8 text-center">
-              <Lightbulb className="text-primary mx-auto mb-4" size={64} />
-              <h3 className="text-xl font-semibold text-foreground">Innovation in Communication</h3>
+            <div className="bg-gradient-to-br from-primary/10 to-primary/20 rounded-xl p-8 text-center transition-all duration-300 hover:from-primary/20 hover:to-primary/30 hover:scale-105 hover:shadow-xl cursor-pointer group">
+              <Lightbulb className="text-primary mx-auto mb-4 transition-transform duration-300 group-hover:scale-110 group-hover:rotate-12" size={64} />
+              <h3 className="text-xl font-semibold text-foreground transition-colors duration-300 group-hover:text-primary">Innovation in Communication</h3>
             </div>
           </div>
 
@@ -49,30 +49,30 @@ export default function About() {
           <div className="mb-16">
             <h2 className="text-3xl font-bold text-foreground mb-8 text-center">Key Features</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div className="bg-muted rounded-lg p-6">
-                <h3 className="text-lg font-semibold text-foreground mb-2 flex items-center">
-                  <Brain className="mr-3 text-primary" size={20} />
+              <div className="bg-muted rounded-lg p-6 transition-all duration-300 hover:bg-muted/80 hover:scale-105 hover:shadow-lg cursor-pointer group">
+                <h3 className="text-lg font-semibold text-foreground mb-2 flex items-center transition-colors duration-300 group-hover:text-primary">
+                  <Brain className="mr-3 text-primary transition-transform duration-300 group-hover:scale-110" size={20} />
                   Smart Context Analysis
                 </h3>
                 <p className="text-muted-foreground">AI analyzes the email content to understand context and intent.</p>
               </div>
-              <div className="bg-muted rounded-lg p-6">
-                <h3 className="text-lg font-semibold text-foreground mb-2 flex items-center">
-                  <Palette className="mr-3 text-primary" size={20} />
+              <div className="bg-muted rounded-lg p-6 transition-all duration-300 hover:bg-muted/80 hover:scale-105 hover:shadow-lg cursor-pointer group">
+                <h3 className="text-lg font-semibold text-foreground mb-2 flex items-center transition-colors duration-300 group-hover:text-primary">
+                  <Palette className="mr-3 text-primary transition-transform duration-300 group-hover:scale-110" size={20} />
                   Multiple Tone Options
                 </h3>
                 <p className="text-muted-foreground">Choose from professional, friendly, formal, casual, and more.</p>
               </div>
-              <div className="bg-muted rounded-lg p-6">
-                <h3 className="text-lg font-semibold text-foreground mb-2 flex items-center">
-                  <Copy className="mr-3 text-primary" size={20} />
+              <div className="bg-muted rounded-lg p-6 transition-all duration-300 hover:bg-muted/80 hover:scale-105 hover:shadow-lg cursor-pointer group">
+                <h3 className="text-lg font-semibold text-foreground mb-2 flex items-center transition-colors duration-300 group-hover:text-primary">
+                  <Copy className="mr-3 text-primary transition-transform duration-300 group-hover:scale-110" size={20} />
                   One-Click Copy
                 </h3>
                 <p className="text-muted-foreground">Instantly copy generated replies to your clipboard.</p>
               </div>
-              <div className="bg-muted rounded-lg p-6">
-                <h3 className="text-lg font-semibold text-foreground mb-2 flex items-center">
-                  <Smartphone className="mr-3 text-primary" size={20} />
+              <div className="bg-muted rounded-lg p-6 transition-all duration-300 hover:bg-muted/80 hover:scale-105 hover:shadow-lg cursor-pointer group">
+                <h3 className="text-lg font-semibold text-foreground mb-2 flex items-center transition-colors duration-300 group-hover:text-primary">
+                  <Smartphone className="mr-3 text-primary transition-transform duration-300 group-hover:scale-110" size={20} />
                   Responsive Design
                 </h3>
                 <p className="text-muted-foreground">Works seamlessly across desktop, tablet, and mobile devices.</p>
@@ -81,19 +81,19 @@ export default function About() {
           </div>
 
           {/* Contact */}
-          <div className="bg-primary/10 rounded-xl p-8 text-center">
+          <div className="bg-primary/10 rounded-xl p-8 text-center transition-all duration-300 hover:bg-primary/20 hover:shadow-xl">
             <h2 className="text-2xl font-bold text-foreground mb-4">Get in Touch</h2>
             <p className="text-muted-foreground mb-6">
               Have questions or feedback? We'd love to hear from you!
             </p>
             <div className="flex justify-center space-x-4">
-              <Button asChild className="bg-primary hover:bg-primary/90 text-primary-foreground font-medium py-2 px-6" data-testid="button-contact">
+              <Button asChild className="bg-primary hover:bg-primary/90 hover:scale-105 text-primary-foreground font-medium py-2 px-6 transition-all duration-300 hover:shadow-lg" data-testid="button-contact">
                 <a href="mailto:support@mailmind.com">
                   <Mail className="mr-2" size={16} />
                   Contact Us
                 </a>
               </Button>
-              <Button asChild className="bg-secondary hover:bg-secondary/80 text-secondary-foreground font-medium py-2 px-6" data-testid="button-github">
+              <Button asChild className="bg-secondary hover:bg-secondary/80 hover:scale-105 text-secondary-foreground font-medium py-2 px-6 transition-all duration-300 hover:shadow-lg" data-testid="button-github">
                 <a href="https://github.com" target="_blank" rel="noopener noreferrer">
                   <Github className="mr-2" size={16} />
                   View Source
