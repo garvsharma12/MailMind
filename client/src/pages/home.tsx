@@ -140,12 +140,10 @@ export default function Home() {
                         <FormLabel className="text-sm font-medium text-foreground">
                           Reply Tone
                         </FormLabel>
-                        <Select onValueChange={field.onChange} value={field.value}>
-                          <FormControl>
-                            <SelectTrigger className="focus:ring-2 focus:ring-primary focus:border-primary transition-all duration-300 hover:shadow-md hover:border-primary/50" data-testid="select-tone">
-                              <SelectValue placeholder="Select tone" />
-                            </SelectTrigger>
-                          </FormControl>
+                        <Select onValueChange={field.onChange} value={field.value || "professional"}>
+                          <SelectTrigger className="focus:ring-2 focus:ring-primary focus:border-primary transition-all duration-300 hover:shadow-md hover:border-primary/50" data-testid="select-tone">
+                            <SelectValue placeholder="Select tone" />
+                          </SelectTrigger>
                           <SelectContent>
                             <SelectItem value="professional">Professional (Default)</SelectItem>
                             <SelectItem value="friendly">Friendly</SelectItem>
