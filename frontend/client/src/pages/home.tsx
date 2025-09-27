@@ -16,6 +16,7 @@ import { generateEmailReply, EmailRequest } from "@/lib/api";
 const formSchema = z.object({
   emailContent: z.string().min(1, "Email content is required"),
   tone: z.string().default("professional"),
+  length: z.enum(["short", "medium", "long"]).default("long"),
 });
 
 type FormData = z.infer<typeof formSchema>;
@@ -29,6 +30,7 @@ export default function Home() {
     defaultValues: {
       emailContent: "",
       tone: "professional",
+      length: "long",
     },
   });
 
@@ -40,7 +42,7 @@ export default function Home() {
     onError: (error) => {
       toast({
         title: "Generation Failed",
-        description: error.message || "Something went wrong. Please try again.",
+        description: (error as Error).message || "Something went wrong. Please try again.",
         variant: "destructive",
       });
     },
@@ -50,6 +52,7 @@ export default function Home() {
     const requestData: EmailRequest = {
       emailContent: data.emailContent,
       tone: data.tone,
+      length: data.length,
     };
     generateMutation.mutate(requestData);
   };
@@ -157,6 +160,31 @@ export default function Home() {
                               </SelectContent>
                           </Select>
 
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    control={form.control}
+                    name="length"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="text-sm font-medium text-foreground">
+                          Reply Length
+                        </FormLabel>
+                        <Select onValueChange={field.onChange} value={field.value}>
+                          <SelectTrigger
+                            className="focus:ring-2 focus:ring-primary focus:border-primary"
+                            data-testid="select-length"
+                          >
+                            <SelectValue placeholder="Select a length" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="short">Short (3–5 sentences)</SelectItem>
+                            <SelectItem value="medium">Medium (5–8 sentences)</SelectItem>
+                            <SelectItem value="long">Long (8–12 sentences) — Default</SelectItem>
+                          </SelectContent>
+                        </Select>
                       </FormItem>
                     )}
                   />
