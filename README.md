@@ -45,6 +45,25 @@ On Vercel:
 - Set the environment variable `VITE_API_BASE_URL` to your reachable backend base URL.
 - Trigger a build; the previous error `../node_modules/.bin/vite: No such file or directory` is resolved by using local scripts.
 
+## Deploy backend to Render (Docker)
+
+Render supports deploying this repository as a Docker service using the provided `Dockerfile`.
+
+- Create a new Web Service on Render and select “Docker” for Runtime.
+- Connect this GitHub repo; Render will auto-detect `Dockerfile` and build it.
+- Service settings:
+  - Plan: pick any (512MB+ recommended)
+  - Port: 8080
+  - Start Command: leave blank (use image CMD). If you must override, use exec form: `java -jar /app/app.jar`.
+  - Environment variables:
+    - `GEMINI_URL`: e.g. `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent`
+    - `GEMINI_KEY`: your API key
+    - Optional: `JAVA_TOOL_OPTIONS` (e.g., `-XX:MaxRAMPercentage=75.0`)
+
+Notes
+- If you previously saw `sh: java: not found`, it was due to the runtime image/command. The Dockerfile now uses a Debian-based Eclipse Temurin JRE image and an exec-form CMD so `java` is present and executed directly.
+- After the backend is live on Render, set `VITE_API_BASE_URL` on Vercel to the Render backend URL so the frontend calls the right API.
+
 ## What was fixed
 
 - Backend reply generation was echoing the original email. Fixed by:

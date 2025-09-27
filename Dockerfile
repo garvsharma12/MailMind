@@ -18,14 +18,14 @@ COPY backend/src ./src
 COPY --from=frontend-build /app/frontend/dist/public ./src/main/resources/static
 RUN mvn -B -DskipTests package
 
-# 3) Runtime image
-FROM eclipse-temurin:17-jre-alpine
+# 3) Runtime image (Debian-based JRE for broader compatibility)
+FROM eclipse-temurin:17-jre
 WORKDIR /app
-ENV JAVA_OPTS=""
 # Set your API config at runtime
 ENV GEMINI_URL=""
 ENV GEMINI_KEY=""
+# Optional JVM options can be passed via JAVA_TOOL_OPTIONS env var
+# e.g., -XX:MaxRAMPercentage=75.0 -XX:+UseSerialGC
 COPY --from=backend-build /app/backend/target/mailmind-sb-0.0.1-SNAPSHOT.jar /app/app.jar
 EXPOSE 8080
-CMD ["sh", "-lc", "java $JAVA_OPTS -jar /app/app.jar"]
-
+CMD ["java", "-jar", "/app/app.jar"]
