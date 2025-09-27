@@ -8,11 +8,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.reactive.function.client.WebClientResponseException;
 
 import java.net.URI;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -72,12 +68,12 @@ public class ReplyGeneratorService {
     }
 
     private int pickMaxTokens(String length) {
-        if (length == null) return 512; // default medium-long
+        if (length == null) return 800; // default medium-long
         String l = length.trim().toLowerCase();
         return switch (l) {
-            case "short" -> 200;
-            case "long" -> 800;
-            default -> 512; // medium or unknown
+            case "short" -> 400;
+            case "long" -> 1200;
+            default -> 800; // medium or unknown
         };
     }
 
@@ -109,10 +105,23 @@ public class ReplyGeneratorService {
         // Remove our explicit delimiters block if the model copied it back
         cleaned = cleaned.replaceAll("(?s)-----8<----- BEGIN ORIGINAL EMAIL -----.*?-----8<----- END ORIGINAL EMAIL -----\\n?", "");
 
+        // Strip common email header/quote indicators if the model reproduced them
+        cleaned = cleaned.replaceAll("(?im)^>+.*$", ""); // quoted lines
+        cleaned = cleaned.replaceAll("(?im)^On .*wrote:.*$", "");
+        cleaned = cleaned.replaceAll("(?im)^From:.*$", "");
+        cleaned = cleaned.replaceAll("(?im)^Sent:.*$", "");
+        cleaned = cleaned.replaceAll("(?im)^Subject:.*$", "");
+        cleaned = cleaned.replaceAll("(?im)^To:.*$", "");
+        cleaned = cleaned.replaceAll("(?im)^Cc:.*$", "");
+        cleaned = cleaned.replaceAll("(?im)^-----+\n?Original Message\n?-----+", "");
+
         // Remove exact original email content if present verbatim
         if (originalEmail != null && !originalEmail.isBlank()) {
             cleaned = cleaned.replace(originalEmail, "");
         }
+
+        // Prepare normalized original for substring checks
+        String normalizedOriginal = normalizeForComparison(originalEmail);
 
         // Build a set of meaningful lines from the original to filter exact line echoes
         Set<String> originalLines = new HashSet<>();
@@ -127,16 +136,44 @@ public class ReplyGeneratorService {
 
         // Remove quoted lines and any lines that exactly match significant original lines
         List<String> kept = cleaned.lines()
-                .map(String::stripTrailing)
-                .filter(l -> !l.stripLeading().startsWith(">"))
-                .filter(l -> !originalLines.contains(l.strip()))
+                .map(String::strip)
+                .filter(l -> !l.isEmpty())
+                .filter(l -> !originalLines.contains(l))
+                .filter(l -> !isMostlyFromOriginal(l, normalizedOriginal))
                 .collect(Collectors.toList());
 
-        cleaned = kept.stream().dropWhile(String::isBlank).collect(Collectors.joining("\n")).trim();
+        cleaned = String.join("\n", kept).trim();
 
         // If we removed everything by accident, fall back to original output
         if (cleaned.isBlank()) return output.trim();
         return cleaned;
+    }
+
+    // Heuristic: consider a line "mostly from original" if the normalized line is a substring of the normalized original,
+    // or if more than 70% of its words appear in the original.
+    private boolean isMostlyFromOriginal(String line, String normalizedOriginal) {
+        if (normalizedOriginal == null || normalizedOriginal.isBlank()) return false;
+        String nLine = normalizeForComparison(line);
+        if (nLine.isBlank()) return false;
+        if (normalizedOriginal.contains(nLine)) return true;
+
+        String[] words = nLine.split("\\s+");
+        if (words.length == 0) return false;
+        int present = 0;
+        for (String w : words) {
+            if (w.length() < 3) continue; // ignore very short words
+            if (normalizedOriginal.contains(w)) present++;
+        }
+        double ratio = present / (double) Math.max(1, words.length);
+        return ratio >= 0.7;
+    }
+
+    private String normalizeForComparison(String s) {
+        if (s == null) return null;
+        return s.toLowerCase(Locale.ROOT)
+                .replaceAll("[\\p{Punct}]", " ") // remove punctuation
+                .replaceAll("\\s+", " ")
+                .trim();
     }
 
     private String buildPrompt(EmailRequest emailRequest) {
@@ -144,26 +181,31 @@ public class ReplyGeneratorService {
                 ? emailRequest.getTone()
                 : "polite and professional";
 
-        String lengthHint = switch (emailRequest.getLength() == null ? "medium" : emailRequest.getLength().trim().toLowerCase()) {
-            case "short" -> "Keep it brief (3-5 sentences).";
-            case "long" -> "Provide a detailed reply (8-12 sentences), with clear structure and next steps.";
-            default -> "Aim for a medium length (5-8 sentences).";
-        };
+        String lengthHint;
+        String length = emailRequest.getLength() == null ? "medium" : emailRequest.getLength().trim().toLowerCase();
+        switch (length) {
+            case "short" -> lengthHint = "Write 4-6 concise sentences.";
+            case "long" -> lengthHint = "Write 10-14 well-structured sentences across 2-3 paragraphs.";
+            default -> lengthHint = "Write 6-9 sentences across 1-2 paragraphs.";
+        }
 
         StringBuilder prompt = new StringBuilder();
-        prompt.append("Task: Write a concise email reply to the message below.\n");
-        prompt.append("Requirements:\n");
+        prompt.append("You are an expert email assistant.\n");
+        prompt.append("Task: Draft a helpful email reply to the message below.\n");
+        prompt.append("Rules (must follow):\n");
         prompt.append("- Do NOT include any subject line.\n");
         prompt.append("- Start with a natural greeting (e.g., Dear/Hi [Name if known]).\n");
         prompt.append("- Use a ").append(tone).append(" tone.\n");
         prompt.append("- ").append(lengthHint).append("\n");
-        prompt.append("- Do NOT quote, restate, or copy the original email text. Paraphrase only what is necessary to respond.\n");
-        prompt.append("- Keep it clear, helpful, and human; include next steps or questions if needed.\n");
+        prompt.append("- Do NOT quote, restate, or copy the original email text. Summarize only what is necessary to respond.\n");
+        prompt.append("- The reply must be entirely new wording (no blocks of the original text).\n");
+        prompt.append("- Keep it clear and action-oriented; include next steps or questions if needed.\n");
         prompt.append("- End with an appropriate sign-off.\n\n");
-        prompt.append("Original email (for context only, DO NOT echo):\n");
+        prompt.append("Original email (for context only — DO NOT echo):\n");
         prompt.append("-----8<----- BEGIN ORIGINAL EMAIL -----\n");
         prompt.append(emailRequest.getEmailContent()).append("\n");
         prompt.append("-----8<----- END ORIGINAL EMAIL -----\n");
         return prompt.toString();
     }
 }
+
